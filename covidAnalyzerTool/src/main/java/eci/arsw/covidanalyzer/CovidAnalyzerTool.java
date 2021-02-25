@@ -37,7 +37,18 @@ public class CovidAnalyzerTool {
         List<File> resultFiles = getResultFileList();
         amountOfFilesTotal = resultFiles.size();
         threads = new ArrayList<CovidThread>();
+        int start = 0;
+        int finish = countThread;
+        int count = amountOfFilesTotal/countThread;
         
+        for(int i=0; i<countThread; i++)
+        {
+        	CovidThread thread = new CovidThread(resultFiles.subList(start, finish));
+        	start = finish;
+        	finish += count;
+        	thread.start();
+        	threads.add(thread);
+        }
         for (File resultFile : resultFiles) {
             List<Result> results = testReader.readResultsFromFile(resultFile);
             for (Result result : results) {
