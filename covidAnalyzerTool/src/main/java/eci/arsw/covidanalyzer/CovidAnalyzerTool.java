@@ -18,10 +18,10 @@ import java.util.stream.Stream;
  */
 public class CovidAnalyzerTool {
 
-    private ResultAnalyzer resultAnalyzer;
+    protected static ResultAnalyzer resultAnalyzer;
     private TestReader testReader;
     private int amountOfFilesTotal;
-    private static AtomicInteger amountOfFilesProcessed;
+    protected static AtomicInteger amountOfFilesProcessed;
     private int countThread;
     private static ArrayList<CovidThread> threads;
 
