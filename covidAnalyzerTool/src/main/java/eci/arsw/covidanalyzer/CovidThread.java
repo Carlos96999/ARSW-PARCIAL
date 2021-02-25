@@ -7,11 +7,15 @@ public class CovidThread extends Thread
 {
 	private List<File> resultFiles;
 	private TestReader testReader;
+	private boolean suspend;
+	private boolean pause;
 	
 	public CovidThread(List<File> subList)
 	{
 		resultFiles = subList;
 		testReader = new TestReader();
+		suspend = false;
+		pause = false;
 	}
 	
 	public void run()
@@ -28,4 +32,21 @@ public class CovidThread extends Thread
 		}
 	}
 
+	public synchronized void suspendThread()
+	{
+		suspend = true;
+	}
+	
+	public synchronized void pauseThread()
+	{
+		pause = true;
+		suspend = false;
+		notify();
+	}
+	
+	public synchronized void resumeThread()
+	{
+		suspend = false;
+		notify();
+	}
 }
