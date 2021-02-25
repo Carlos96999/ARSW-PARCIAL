@@ -21,18 +21,23 @@ public class CovidAnalyzerTool {
     private ResultAnalyzer resultAnalyzer;
     private TestReader testReader;
     private int amountOfFilesTotal;
-    private AtomicInteger amountOfFilesProcessed;
+    private static AtomicInteger amountOfFilesProcessed;
+    private int countThread;
+    private static ArrayList<CovidThread> threads;
 
     public CovidAnalyzerTool() {
         resultAnalyzer = new ResultAnalyzer();
         testReader = new TestReader();
         amountOfFilesProcessed = new AtomicInteger();
+        countThread = 5;
     }
 
     public void processResultData() {
         amountOfFilesProcessed.set(0);
         List<File> resultFiles = getResultFileList();
         amountOfFilesTotal = resultFiles.size();
+        threads = new ArrayList<CovidThread>();
+        
         for (File resultFile : resultFiles) {
             List<Result> results = testReader.readResultsFromFile(resultFile);
             for (Result result : results) {
